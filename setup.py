@@ -14,6 +14,8 @@ setup(
         'miscmacrosplugin.PlannedMilestones = miscmacrosplugin.PlannedMilestones',
         'miscmacrosplugin.TicketBox = miscmacrosplugin.TicketBox',
         'miscmacrosplugin.WikiCalendarMacro = miscmacrosplugin.WikiCalendarMacro',
+        'miscmacrosplugin.EmailProcessor = miscmacrosplugin.EmailProcessor',
+        'miscmacrosplugin.MilestoneTrafficLights = miscmacrosplugin.MilestoneTrafficLights',
         ]},
     install_requires = [''],
 )
