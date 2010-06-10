@@ -127,7 +127,7 @@ class WikiCalendarMacro(WikiMacroBase):
         # 9-tuple for use with time.* functions requiring a struct_time
         # argument. The ninth value of -1 signals "do the right thing"
         # w.r.t. daylight savings time.
-        date = [0] * 8 + [-1] # AS: breaks Python 2.4
+        date = [1] * 8 + [-1]
         # date = list( today ) # AS: breaks SQL query
         
         # building the output
