@@ -30,6 +30,7 @@
 
 
 import datetime
+import time
 from trac.wiki.macros import WikiMacroBase
 from trac.ticket import Milestone, Ticket
 from trac.util.datefmt import localtz
@@ -44,8 +45,8 @@ class MilestoneTrafficLightsMacro(WikiMacroBase):
         split_args = args.split(",")
         milestone_arg      = split_args[0]
         hoursavailable_arg = float(split_args[1])
-        start_arg          = datetime.datetime.strptime(split_args[2], "%Y-%m-%d").replace(tzinfo=localtz)
-            
+        start_arg          = datetime.datetime(*(time.strptime(split_args[2], "%Y-%m-%d")[0:6])).replace(tzinfo=localtz)
+
         milestone = Milestone(self.env, milestone_arg, db)
         formatter.req.perm.require("MILESTONE_VIEW", milestone.resource)
 
