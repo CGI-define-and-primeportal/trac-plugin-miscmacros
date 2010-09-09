@@ -59,7 +59,7 @@ class MilestoneTrafficLightsMacro(WikiMacroBase):
         for row in get_tickets_for_milestone(self.env, db, milestone.name):
             ticket = Ticket(self.env, row['id'], db)
             if ticket['status'] == "closed":
-                break
+                continue
             if ticket['estimatedhours'] is not None:
                 estimatedhours = estimatedhours + float(ticket['estimatedhours'])
             if ticket['totalhours'] is not None:
