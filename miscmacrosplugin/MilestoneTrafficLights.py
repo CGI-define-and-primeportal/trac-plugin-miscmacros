@@ -48,6 +48,10 @@ class MilestoneTrafficLightsMacro(WikiMacroBase):
         start_arg          = datetime.datetime(*(time.strptime(split_args[2], "%Y-%m-%d")[0:6])).replace(tzinfo=localtz)
 
         milestone = Milestone(self.env, milestone_arg, db)
+
+        if milestone.due is None:
+            raise Exception("Milestone %s has no due date set." % milestone.name)
+        
         formatter.req.perm.require("MILESTONE_VIEW", milestone.resource)
 
         estimatedhours = 0.0
@@ -55,7 +59,7 @@ class MilestoneTrafficLightsMacro(WikiMacroBase):
         for row in get_tickets_for_milestone(self.env, db, milestone.name):
             ticket = Ticket(self.env, row['id'], db)
             if ticket['status'] == "closed":
-                break
+                continue
             if ticket['estimatedhours'] is not None:
                 estimatedhours = estimatedhours + float(ticket['estimatedhours'])
             if ticket['totalhours'] is not None:
