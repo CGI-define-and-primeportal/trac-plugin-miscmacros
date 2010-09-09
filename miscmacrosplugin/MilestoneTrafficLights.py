@@ -48,6 +48,10 @@ class MilestoneTrafficLightsMacro(WikiMacroBase):
         start_arg          = datetime.datetime(*(time.strptime(split_args[2], "%Y-%m-%d")[0:6])).replace(tzinfo=localtz)
 
         milestone = Milestone(self.env, milestone_arg, db)
+
+        if milestone.due is None:
+            raise Exception("Milestone %s has no due date set." % milestone.name)
+        
         formatter.req.perm.require("MILESTONE_VIEW", milestone.resource)
 
         estimatedhours = 0.0
