@@ -60,6 +60,10 @@ class MilestoneTrafficLightsMacro(WikiMacroBase):
                 estimatedhours = estimatedhours + float(ticket['estimatedhours'])
             if ticket['totalhours'] is not None:
                 totalhours = totalhours         + float(ticket['totalhours'])
+                if ticket['estimatedhours'] is not None:
+                    if float(ticket['totalhours']) > float(ticket['estimatedhours']):
+                        # if we know it took longer than estimated, then update the estimate by adding on the time taken
+                        estimatedhours = estimatedhours + float(ticket['totalhours']) - float(ticket['estimatedhours'])
 
         table = tag.table(class_='MilestoneTrafficLights')
 
