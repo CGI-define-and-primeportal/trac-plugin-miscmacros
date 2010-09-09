@@ -54,10 +54,16 @@ class MilestoneTrafficLightsMacro(WikiMacroBase):
         totalhours     = 0.0
         for row in get_tickets_for_milestone(self.env, db, milestone.name):
             ticket = Ticket(self.env, row['id'], db)
+            if ticket['status'] == "closed":
+                break
             if ticket['estimatedhours'] is not None:
                 estimatedhours = estimatedhours + float(ticket['estimatedhours'])
             if ticket['totalhours'] is not None:
                 totalhours = totalhours         + float(ticket['totalhours'])
+                if ticket['estimatedhours'] is not None:
+                    if float(ticket['totalhours']) > float(ticket['estimatedhours']):
+                        # if we know it took longer than estimated, then update the estimate by adding on the time taken
+                        estimatedhours = estimatedhours + float(ticket['totalhours']) - float(ticket['estimatedhours'])
 
         table = tag.table(class_='MilestoneTrafficLights')
 
