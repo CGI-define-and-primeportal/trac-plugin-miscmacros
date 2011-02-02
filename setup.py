@@ -16,6 +16,7 @@ setup(
         'miscmacrosplugin.WikiCalendarMacro = miscmacrosplugin.WikiCalendarMacro',
         'miscmacrosplugin.EmailProcessor = miscmacrosplugin.EmailProcessor',
         'miscmacrosplugin.MilestoneTrafficLights = miscmacrosplugin.MilestoneTrafficLights',
+        'miscmacrosplugin.Charts = miscmacrosplugin.Charts',
         ]},
-    install_requires = [''],
+    install_requires = ['GChartWrapper'],
 )
