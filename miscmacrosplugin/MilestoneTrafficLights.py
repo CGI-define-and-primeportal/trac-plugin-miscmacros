@@ -36,16 +36,17 @@ from trac.ticket import Milestone, Ticket
 from trac.util.datefmt import localtz
 from trac.ticket.roadmap import get_tickets_for_milestone
 from genshi.builder import tag
+from trac.wiki.api import parse_args
 
 class MilestoneTrafficLightsMacro(WikiMacroBase):
-    def expand_macro(self, formatter, name, args):
+    def expand_macro(self, formatter, name, content):
 
-        db = self.env.get_db_cnx()
+        db = self.env.get_read_db()
 
-        split_args = args.split(",")
-        milestone_arg      = split_args[0]
-        hoursavailable_arg = float(split_args[1])
-        start_arg          = datetime.datetime(*(time.strptime(split_args[2], "%Y-%m-%d")[0:6])).replace(tzinfo=localtz)
+        args, kwargs = parse_args(content)
+        milestone_arg      = args[0].strip()
+        hoursavailable_arg = float(args[1].strip())
+        start_arg          = datetime.datetime(*(time.strptime(args[2].strip(), "%Y-%m-%d")[0:6])).replace(tzinfo=localtz)
 
         milestone = Milestone(self.env, milestone_arg, db)
 
