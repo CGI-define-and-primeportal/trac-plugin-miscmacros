@@ -56,6 +56,7 @@ class MilestoneTrafficLightsMacro(WikiMacroBase):
         formatter.req.perm.require("MILESTONE_VIEW", milestone.resource)
 
         estimatedhours = 0.0
+        remaininghours = 0.0        
         totalhours     = 0.0
         for row in get_tickets_for_milestone(self.env, db, milestone.name):
             ticket = Ticket(self.env, row['id'], db)
@@ -63,12 +64,10 @@ class MilestoneTrafficLightsMacro(WikiMacroBase):
                 continue
             if ticket['estimatedhours'] is not None:
                 estimatedhours = estimatedhours + float(ticket['estimatedhours'])
+            if ticket['remaininghours'] is not None:
+                remaininghours = remaininghours + float(ticket['remaininghours'])
             if ticket['totalhours'] is not None:
                 totalhours = totalhours         + float(ticket['totalhours'])
-                if ticket['estimatedhours'] is not None:
-                    if float(ticket['totalhours']) > float(ticket['estimatedhours']):
-                        # if we know it took longer than estimated, then update the estimate by adding on the time taken
-                        estimatedhours = estimatedhours + float(ticket['totalhours']) - float(ticket['estimatedhours'])
 
         table = tag.table(class_='MilestoneTrafficLights')
 
@@ -85,12 +84,12 @@ class MilestoneTrafficLightsMacro(WikiMacroBase):
                                                              start_arg.strftime("%Y-%m-%d"),
                                                              milestone.due.strftime("%Y-%m-%d")))))
 
-        table.append(tag.tr(tag.td('Ticket Estimated Hours'),
+        table.append(tag.tr(tag.td('Originally Estimated Hours'),
                             tag.td(estimatedhours)))
+        table.append(tag.tr(tag.td('Currently Estimated Hours'),
+                            tag.td(remaininghours)))        
         table.append(tag.tr(tag.td('Ticket Spent Hours'),
                             tag.td(totalhours)))
-        table.append(tag.tr(tag.td('Ticket Hours to Go'),
-                            tag.td(estimatedhours - totalhours)))
 
         #return hoursavailable_arg / float((datetime.datetime.now() - start_arg).days)
         
@@ -100,7 +99,7 @@ class MilestoneTrafficLightsMacro(WikiMacroBase):
         table.append(tag.tr(tag.td('Work Pro-rota Hours Left'),
                             tag.td("%.1f" % work_hours_left)))
 
-        sparehours = work_hours_left - (estimatedhours - totalhours)
+        sparehours = work_hours_left - remaininghours
 
         if sparehours > 100:
             colour = "green"
