@@ -47,8 +47,6 @@ from GChartWrapper import GChart
 #[[TicketUpdatesChart]]
 #[[TicketsToStatusChart(daysback=1)]]
 #[[TicketsToStatusChart(fixed)]]
-#[[TicketReportersChart]]
-
 
 class GeneralChartMixin(object):
     def chart(self, charttype, title, dataset):
@@ -129,31 +127,6 @@ class TicketUpdatesChartMacro(WikiMacroBase, GeneralChartMixin):
 
         title = "Ticket updates per Person|%s to %s" % (start.strftime("%c"),
                                                         stop.strftime("%c"))
-
-        return self.chart(charttype, title, dataset)
-
-class TicketReportersChartMacro(WikiMacroBase, GeneralChartMixin):
-    def expand_macro(self, formatter, name, args):
-        largs, kwargs = parse_args(args)
-
-        charttype, (start, stop) = self.handle_kwargs(formatter, kwargs)
-
-        dataset = {}
-        db = self.env.get_db_cnx()
-        cursor = db.cursor()
-        cursor.execute("""SELECT COUNT(*), reporter
-        FROM ticket
-        WHERE   time>=%s AND time<=%s 
-        GROUP BY reporter""", (to_utimestamp(start),
-                               to_utimestamp(stop)))
-        for count, author in cursor:
-            dataset[author] = count
-
-        if not dataset:
-            return "No ticket opening data available"
-
-        title = 'Tickets reported per Person|%s to %s' % (start.strftime("%c"),
-                                                          stop.strftime("%c"))
 
         return self.chart(charttype, title, dataset)
 
