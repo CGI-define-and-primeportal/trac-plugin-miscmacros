@@ -17,6 +17,7 @@ setup(
         'miscmacrosplugin.EmailProcessor = miscmacrosplugin.EmailProcessor',
         'miscmacrosplugin.MilestoneTrafficLights = miscmacrosplugin.MilestoneTrafficLights',
         'miscmacrosplugin.Charts = miscmacrosplugin.Charts',
+        'miscmacrosplugin.TicketsForReviewQuery = miscmacrosplugin.TicketsForReviewQuery',
         ]},
     install_requires = ['GChartWrapper'],
 )
