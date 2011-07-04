@@ -14,8 +14,7 @@ Shows all tickets that need reviewing. This identifies tickets that have either 
 
 It relies upon the following:
 
-* All commits must reference the Ticket in the commit comment, using the 
-  format `[nn]: Message` where nn is the Ticket number
+* All commits must reference the Ticket in the commit comment
 * Review comments must be made as ticket comments with the heading `== Review ==`
 
 This is a macro contributed to #define by a Logica project. It is not
