@@ -59,7 +59,7 @@ class WikiCalendarMacro(WikiMacroBase):
         # VS: The hdf is gone in 0.11, using request object instead
         http_param_year = formatter.req.args.get('year', '')
         http_param_month = formatter.req.args.get('month', '')
-        if content == "":
+        if not content:
             args = []
         else:
             args = content.split(',', 3)
