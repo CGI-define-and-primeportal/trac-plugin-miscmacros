@@ -18,6 +18,7 @@ setup(
         'miscmacrosplugin.MilestoneTrafficLights = miscmacrosplugin.MilestoneTrafficLights',
         'miscmacrosplugin.Charts = miscmacrosplugin.Charts',
         'miscmacrosplugin.TicketsForReviewQuery = miscmacrosplugin.TicketsForReviewQuery',
+        'miscmacrosplugin.DateMacro = miscmacrosplugin.DateMacro',
         ]},
     install_requires = ['GChartWrapper'],
 )
