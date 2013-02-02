@@ -180,3 +180,30 @@ class CommittersChartMacro(WikiMacroBase, GeneralChartMixin):
 
         return self.chart(charttype, title, dataset)
 
+
+class PentahoChartMacro(WikiMacroBase):
+    def expand_macro(self, formatter, name, args):
+        largs, kwargs = parse_args(args)
+
+        doc = """
+<iframe width="100%" height="700" src="https://brasstest01.define.logica.com/pentaho/content/analyzer/editor?command=open&solution=steel-wheels&path=%2FProject+d4&action=Time+estimates+scatter.xanalyzer">
+</iframe>"""
+        return doc
+
+class PentahoOLAPMacro(WikiMacroBase):
+    def expand_macro(self, formatter, name, args):
+        largs, kwargs = parse_args(args)
+
+        doc = """
+<iframe width="100%" height="700" src="https://brasstest01.define.logica.com/pentaho/content/analyzer/editor?command=new&showFieldList=true&showFieldLayout=true&catalog=d4%20current&cube=d4%20current&autoRefresh=true">
+</iframe>"""
+        return doc
+
+class SaikuOLAPMacro(WikiMacroBase):
+    def expand_macro(self, formatter, name, args):
+        largs, kwargs = parse_args(args)
+
+        doc = """
+<iframe width="100%" height="700" src="https://brasstest01.define.logica.com/pentaho/content/saiku-ui/index.html?biplugin=true">
+</iframe>"""
+        return doc
