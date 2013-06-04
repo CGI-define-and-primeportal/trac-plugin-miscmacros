@@ -135,24 +135,39 @@ class WikiCalendarMacro(WikiMacroBase):
         buff.write('''\
 <style type="text/css">
 <!--
-table.wiki-calendar { margin: 0; border: none; padding: 0; border-collapse: collapse; }
-table.wiki-calendar caption { font-size: 120%; white-space: nowrap; }
-table.wiki-calendar caption a { display: inline; margin: 0; border: 0; padding: 0; background-color: transparent; color: #b00; text-decoration: none;}
-table.wiki-calendar caption a.prevy { padding: 0 5px; font-size:9pt; }
-table.wiki-calendar caption a.prevm {padding: 0 5px; font-size:9pt;}
-table.wiki-calendar caption a.nexty { padding: 0 5px; font-size:9pt; }
-table.wiki-calendar caption a.nextm {padding: 0 5px; font-size:9pt}
-table.wiki-calendar td.x {}
-table.wiki-calendar td.y {text-align:center; width:120%;font-size: 10pt;font-weight:bold;}
-table.wiki-calendar caption a:hover { background-color: #FFCC00; }
-table.wiki-calendar th { border: none; border-bottom: 2px solid #000; text-align: center; font-weight: bold; }
-table.wiki-calendar td { padding: 0; border: none; text-align: right; }
-table.wiki-calendar a.day { display: block; width: 2em; height: 100%; margin: 0; border: 2px solid #fff; padding: 0; background-color: #fff; color: #0066cc; text-decoration: none; }
-table.wiki-calendar a.day:hover { border-color: #ff9900; background-color: #FFCC00; color: #000; }
-table.wiki-calendar a.today { border-color: #33FF00 !important; }
-table.wiki-calendar a.adjacent_month { border-color: #f0f0f0; background-color: #f0f0f0; }
-table.wiki-calendar a.milestone { font-weight: bold; }
-table.wiki-calendar a.page { color: #b00 !important; font-style: italic; }
+table.wiki-calendar { border:1px solid #555; border-top:none; color:#222; border-radius:0 0 5px 5px; border-collapse: separate; }
+table.wiki-calendar caption { border-radius:5px 5px 0 0; border:1px solid #555; background:#F5F5F5; border-bottom-color:#DDD; padding: 0.2em 0; color:#555; }
+table.wiki-calendar caption table { margin:3px 6px; }
+table.wiki-calendar caption a:before { font-family:'FontAwesome'; color:#888; display:block; width:16px; text-align:center; }
+table.wiki-calendar caption a { text-decoration: none;}
+table.wiki-calendar caption a.prevy:before { content: '\\f049'; }
+table.wiki-calendar caption a.prevm:before { content: '\\f04a';}
+table.wiki-calendar caption a.nexty:before { content: '\\f050'; }
+table.wiki-calendar caption a.nextm:before { content: '\\f04e';}
+table.wiki-calendar td.y {text-align:center; width:100%; vertical-align:middle;}
+table.wiki-calendar th { font-size:0.9em; background:#EAEAEA; border-bottom:1px solid #CCC; text-align: center; font-weight:normal; border-radius:0; padding:5px 3px; }
+table.wiki-calendar td { font-size:0.9em; padding: 1px; border: none; }
+table.wiki-calendar a.day { display: block; width: 25px; height: 12px; line-height: 12px; border:1px solid #FFF; padding: 0.5em 0.2em; color: #555; text-decoration: none; border-radius:5px; text-align:center; }
+table.wiki-calendar a.day:hover { background-color: #EAEAEA; }
+table.wiki-calendar a.today { background:#DDD; border-color:#DDD; }
+table.wiki-calendar a.adjacent_month { color:#999; }
+table.wiki-calendar a.milestone,
+table.wiki-calendar a.milestone:hover { 
+  background-color: #006DCC;
+  background-image: linear-gradient(to bottom, #0088CC, #0044CC);
+  background-repeat: repeat-x;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  color: #FFF;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+table.wiki-calendar a.page { 
+  background-color: #49AFCD;
+  background-image: linear-gradient(to bottom, #5BC0DE, #2F96B4);
+  background-repeat: repeat-x;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  color: #FFF;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
 //-->
 </style>
 <table class="wiki-calendar"><caption>
