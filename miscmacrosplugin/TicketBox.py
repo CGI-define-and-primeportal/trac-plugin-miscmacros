@@ -199,7 +199,7 @@ def run0(req, env, db, content):
     for arg in args:
         match = args_re.match(arg)
         if not match:
-            env.log.debug('TicketBox: unknown arg: %s' % arg)
+            env.log.debug('TicketBox: unknown arg: %s', arg)
             continue
         elif match.group('title'):
             title = match.group('title')[1:-1]
@@ -241,7 +241,6 @@ def run0(req, env, db, content):
             id_name = 'id'
         elif match.group('rptnum') or match.group('rptnum2'):
             num = match.group('rptnum') or match.group('rptnum2')
-            #env.log.debug('dynamic variables = %s' % dv)
             curs = db.cursor()
             try:
                 curs.execute('SELECT %s FROM report WHERE id=%s'
@@ -271,7 +270,6 @@ def run0(req, env, db, content):
                 dv = ReportModule(env).get_var_args(req)
                 sql, params = call(ReportModule(env).sql_sub_vars, locals())
             try:
-                #env.log.debug('sql = %s' % sql)
                 curs = db.cursor()
                 curs.execute(sql, params)
                 rows = curs.fetchall()
