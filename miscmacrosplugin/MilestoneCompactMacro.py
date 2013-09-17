@@ -24,11 +24,10 @@ class MilestoneCompactProcessor(Component):
         return inspect.getdoc(sys.modules.get(self.__module__))
 
     def expand_macro(self, formatter, name, arg_content):
-
-        cursor = self.env.get_db_cnx().cursor()
-
-	query = "SELECT name, due, completed, description from milestone order by due;"
-	cursor.execute(query)
+        db = self.env.get_db_cnx()
+        cursor = db.cursor() 
+        cursor.execute("SELECT name, due, completed, description "
+                       "FROM milestone ORDER BY due")
 
         miles = [mile for mile in cursor]
 
