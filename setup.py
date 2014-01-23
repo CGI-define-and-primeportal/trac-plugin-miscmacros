@@ -20,6 +20,7 @@ setup(
         'miscmacrosplugin.TicketsForReviewQuery = miscmacrosplugin.TicketsForReviewQuery',
         'miscmacrosplugin.DateMacro = miscmacrosplugin.DateMacro',
         'miscmacrosplugin.MediahubPlayerMacro = miscmacrosplugin.MediahubPlayerMacro',
+        'miscmacrosplugin.TimelineMacro = miscmacrosplugin.TimelineMacro',
         ]},
     install_requires = ['GChartWrapper'],
 )
