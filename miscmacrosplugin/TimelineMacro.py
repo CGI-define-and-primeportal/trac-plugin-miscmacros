@@ -63,7 +63,7 @@ class TimelineMacro(WikiMacroBase):
             for a in arg_list:
                 if a.startswith("max"):
                     try:
-                        maxrows = int(content.split(=)[1])
+                        maxrows = int(content.split("=")[1])
                     except ValueError:
                         return "The max argument passed was not an integer."
 
