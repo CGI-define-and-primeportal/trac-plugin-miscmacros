@@ -17,14 +17,16 @@ from itertools import groupby
 
 class TimelineMacro(WikiMacroBase):
     """
-    A macro which fetches the latest ticket changes and displays 
+    A macro which lists recent project activity. 
+
+    The TimelineMacro collects project wide activity and displays 
     the results inside a wiki page. To improve the appearance of the macro, 
     user profile images (currently take from gravatar) are also shown.
 
     This is not to be confused with the TicketQuery macro, which allows 
-    users to filter the query and returns ticket information. 
+    users to query the ticket system and returns ticket information. 
 
-    In contrast this macro returns all ticket change informaiton,
+    In contrast this macro returns all any project changes,
     to give a quick overview of recent activity across the project.
 
     The only parameter you can pass is a 'max' keyword argument, which will 
@@ -33,8 +35,8 @@ class TimelineMacro(WikiMacroBase):
 
     Examples:
     {{{
-    [[TicketActivity]] # shows the 10 most recent ticket changes
-    [[TicketActivity(max=10)]] # shows the 20 more recent ticket changes
+    [[TimelineMacro]] # shows the 10 most recent ticket changes
+    [[TimelineMacro(max=10)]] # shows the 20 more recent ticket changes
     }}}
     """
 
@@ -60,8 +62,10 @@ class TimelineMacro(WikiMacroBase):
             arg_list = content.split()
             for a in arg_list:
                 if a.startswith("max"):
-                    maxrows = int(content.split("=")[1])
-
+                    try:
+                        maxrows = int(content.split(=)[1])
+                    except ValueError:
+                        return "The max argument passed was not an integer."
 
         return self.get_timeline_markup(req, 'macro', maxrows)
 
@@ -75,7 +79,7 @@ class TimelineMacro(WikiMacroBase):
 
         # last 14 days should be enough
         stop = datetime.now(req.tz)
-        start = stop - timedelta(days=14)
+        start = stop - timedelta(days=50)
 
         # use code from trac/timeline to generate event data
         timeline = TimelineModule(self.env)
