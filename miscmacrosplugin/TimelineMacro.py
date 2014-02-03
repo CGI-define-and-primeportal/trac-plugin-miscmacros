@@ -2,7 +2,8 @@
 # (C) CGI 2013
 # 0.1
 
-from trac.core import * 
+from trac.core import *
+from trac.web.chrome import Chrome
 from trac.wiki.macros import WikiMacroBase
 from trac.timeline.api import ITimelineEventProvider
 from trac.timeline.web_ui import TimelineModule
@@ -77,6 +78,8 @@ class TimelineMacro(WikiMacroBase):
         Note this code uses methods from the trac TimelineModule module.
         """
 
+        chrome = Chrome(self.env)
+
         # last 14 days should be enough
         stop = datetime.now(req.tz)
         start = stop - timedelta(days=50)
@@ -90,46 +93,42 @@ class TimelineMacro(WikiMacroBase):
 
         # create the mark up
         context = Context.from_request(req)
-        event_list = tag.ul(class_="no-style", style="margin-left:0px")
+        event_list = tag.ul(class_="timeline-list no-style")
         for event in events:
             event_title = event['render']('title', context)
             event_url = event['render']('url', context)
             event_list.append(tag.li(
-                                    tag.div(
-                                        tag.img(
-                                            src=req.href.avatar(event['author']),
-                                            class_="avatar",
-                                            style="height:40px; width:40px; "
-                                                  "float:left; border-radius:5px;"
-                                                  "margin-top:2px; border: 1px solid #999"
-                                        ),
-                                        tag.p(
-                                            tag.strong(event['author']
-                                            ),
-                                        "- %s" % (pretty_age(event['date']),),
-                                            class_="inline top",
-                                            style="margin-left: 50px;"
-                                        ),
-                                        tag.a(event_title,
-                                            href=event_url,
-                                            class_="inline",
-                                            style="margin-left: 10px"
-                                        ),
-                                        style="padding-top: 5px; margin-top:5px"
-                                    ),
-                                    style="margin-left:0px"
-                                ),
-                            )
+                tag.img(
+                    src=req.href.avatar(event['author']),
+                    class_="avatar",
+                ),
+                tag.div(
+                    tag.span(
+                        chrome.authorinfo(req, event['author']),
+                        class_="author"
+                    ),
+                    tag.span(
+                        pretty_age(event['date']),
+                        class_="date",
+                    ),
+                    tag.div(
+                        tag.i(class_="event-type icon-" + event['kind']),
+                        tag.a(
+                            event_title,
+                            href=event_url,
+                        ),
+                        class_="event-summary"
+                    ),
+                    class_="event-info",
+                ),
+                class_="cf"
+            ))
 
         # if the markup is being generated via ISideBarBoxProvider we don't 
         # need to add a span3 class 
+        div_classes = "box-sidebar"
         if call == "macro":
-            div_classes = "full-width rounded span3 box-sidebar"
-            div_styling = "float: right; display:inline"
-        elif call == "sidebar":
-            div_classes = "full=width rounded box-sidebar"
-            div_styling=""
-
+            div_classes += " span3 right"
         return tag.div(
                     tag.h3(
                         tag.i(
@@ -139,5 +138,4 @@ class TimelineMacro(WikiMacroBase):
                     ),
                     event_list,
                     class_=div_classes,
-                    style=div_styling
                 )
