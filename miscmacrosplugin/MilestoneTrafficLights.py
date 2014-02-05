@@ -62,12 +62,12 @@ class MilestoneTrafficLightsMacro(WikiMacroBase):
             ticket = Ticket(self.env, row['id'], db)
             if ticket['status'] == "closed":
                 continue
-            if ticket['estimatedhours'] is not None:
-                estimatedhours = estimatedhours + float(ticket['estimatedhours'])
-            if ticket['remaininghours'] is not None:
-                remaininghours = remaininghours + float(ticket['remaininghours'])
-            if ticket['totalhours'] is not None:
-                totalhours = totalhours         + float(ticket['totalhours'])
+            if ticket['estimatedhours']:
+                estimatedhours += float(ticket['estimatedhours'])
+            if ticket['remaininghours']:
+                remaininghours += float(ticket['remaininghours'])
+            if ticket['totalhours']:
+                totalhours += float(ticket['totalhours'])
 
         table = tag.table(class_='MilestoneTrafficLights')
 
