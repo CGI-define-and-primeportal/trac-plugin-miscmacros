@@ -40,11 +40,9 @@ class PlannedMilestonesMacro(WikiMacroBase):
         include = re.compile(includepattern)
         #exclude = re.compile(excludepattern)
 
-        milestones = []
-        
-        for milestone in Milestone.select(self.env, include_completed=False):
-            if include.match(milestone.name): # and not exclude.match(milestone.name):
-                milestones.append(milestone)
+        milestones = [milestone
+                      for milestone in Milestone.select(self.env, include_completed=False)
+                      if include.match(milestone.name)]
                 
         out.write('<ul>\n')
         for milestone in milestones[0:length]:

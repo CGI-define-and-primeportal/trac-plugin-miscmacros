@@ -46,6 +46,8 @@ from trac import __version__ as trac_ver
 from trac.wiki.formatter import wiki_to_oneliner
 from trac.ticket.report import ReportModule
 from trac.ticket.model import Ticket
+from trac.util import unique
+
 try:
     from trac.ticket.query import Query
     has_query = True
@@ -113,11 +115,7 @@ def uniq(x):
     >>> uniq([1,2,3,3,2,4,1])
     [1, 2, 3, 4]
     """
-    y=[]
-    for i in x:
-        if not y.count(i):
-            y.append(i)
-    return y
+    return list(unique(x))
 
 def sqlstr(x):
     """Make quoted value string for SQL.
@@ -163,7 +161,9 @@ def parse(content):
     >>> parse("key='a,b,c',key2=\\"d,e\\"")
     ["key='a,b,c'", 'key2="d,e"']
     """
-    result = []
+    return list(_parse(content))
+
+def _parse(content):
     args_re = re.compile("^(" + string.join(args_pat, "|") + ") *(,|$)")
     content = content.lstrip()
     while content:
@@ -174,8 +174,7 @@ def parse(content):
         else:
             item, content = [x.strip() for x in content.split(',', 1)]
         item = item.strip()
-        result.append(item)
-    return result
+        yield item
 
 def call(func, vars):
     names = call_args[func.__name__]
@@ -323,12 +322,13 @@ def run0(req, env, db, content):
     else:
         format = '%(id)s'
         sep = ', '
-    lines = []
-    for n in items:
+
+    def _line(n):
         kwds = dict(id="#%d" % n)
         if summary:
             kwds['summary'] = summaries[n]
-        lines.append(wiki_to_oneliner(format % kwds, env, **fargs))
+        return wiki_to_oneliner(format % kwds, env, **fargs)
+    lines = (_line(n) for n in items)
     html = sep.join(lines)
     if html:
         try:
