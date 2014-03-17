@@ -90,6 +90,7 @@ class TimelineMacro(WikiMacroBase):
         include_authors, exclude_authors = timeline.authors()
         events = timeline.get_events(req, start, stop, filters, available_filters, 
                                      include_authors, exclude_authors, maxrows)
+        show_gravatar = self.config.get('avatar','mode').lower() != 'off'
 
         # create the mark up
         context = Context.from_request(req)
@@ -98,28 +99,25 @@ class TimelineMacro(WikiMacroBase):
             event_title = event['render']('title', context)
             event_url = event['render']('url', context)
             event_list.append(tag.li(
-                tag.img(
+                show_gravatar and tag.img(
                     src=req.href.avatar(event['author']),
                     class_="avatar",
+                ) or "",
+                tag.span(
+                    chrome.authorinfo(req, event['author']),
+                    class_="author"
+                ),
+                tag.span(
+                    pretty_age(event['date']),
+                    class_="date",
                 ),
                 tag.div(
-                    tag.span(
-                        chrome.authorinfo(req, event['author']),
-                        class_="author"
+                    tag.i(class_="event-type icon-" + event['kind']),
+                    tag.a(
+                        event_title,
+                        href=event_url,
                     ),
-                    tag.span(
-                        pretty_age(event['date']),
-                        class_="date",
-                    ),
-                    tag.div(
-                        tag.i(class_="event-type icon-" + event['kind']),
-                        tag.a(
-                            event_title,
-                            href=event_url,
-                        ),
-                        class_="event-summary"
-                    ),
-                    class_="event-info",
+                    class_="event-summary"
                 ),
                 class_="cf"
             ))
