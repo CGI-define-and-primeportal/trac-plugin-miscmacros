@@ -100,7 +100,7 @@ class TimelineMacro(WikiMacroBase):
             event_url = event['render']('url', context)
             event_list.append(tag.li(
                 show_gravatar and tag.img(
-                    src=req.href.avatar(event['author']),
+                    src=req.href.avatar(event['author'] if event['author'] else 'anonymous'),
                     class_="avatar",
                 ) or "",
                 tag.span(
