@@ -18,11 +18,11 @@ class DateMacro(WikiMacroBase):
         
         args, kw = parse_args(content)
         fmt = 'format' in kw and kw['format'] or '%Y-%m-%d %H:%M %Z'
-        d = args and args[0].strip() or None
-        if not d:
-            return ''
+        d = args and args[0].strip() or ''
         try:
             d = dateutil.parser.parse(d)
         except ValueError:
             raise Exception("Failed to parse date '%s', try using 'YYYY-MM-DD HH:MM +H:00'" % d)
+        if not d.tzinfo:
+            d = d.replace(tzinfo=formatter.req.tz)
         return d.astimezone(formatter.req.tz).strftime(fmt)
