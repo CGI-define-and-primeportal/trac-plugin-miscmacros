@@ -8,7 +8,7 @@ from trac.wiki.api import parse_args
 import dateutil.parser
 
 class DateMacro(WikiMacroBase):
-    """ Display a date in current user's timezone. E.g., `[[Date(2011-10-14 13:00 GMT)]]`
+    """ Display a date in current user's timezone. E.g., `[[Date(2011-10-14 13:00 UTC)]]`
         will show as 2011-10-14 15:00 CEST for a user in the !Europe/Stockholm (summer) timezone.
         
         Optional keyword "format" may be used. Default format is "%Y-%m-%d %H:%M %Z". See 
