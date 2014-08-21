@@ -5,7 +5,7 @@ Created on 13 okt 2011
 '''
 from trac.wiki.macros import WikiMacroBase
 from trac.wiki.api import parse_args
-import dateutil
+import dateutil.parser
 
 class DateMacro(WikiMacroBase):
     """ Display a date in current user's timezone. E.g., `[[Date(2011-10-14 13:00 GMT)]]`
@@ -23,6 +23,6 @@ class DateMacro(WikiMacroBase):
             return ''
         try:
             d = dateutil.parser.parse(d)
-        except:
+        except ValueError:
             raise Exception("Failed to parse date '%s', try using 'YYYY-MM-DD HH:MM +H:00'" % d)
         return d.astimezone(formatter.req.tz).strftime(fmt)
