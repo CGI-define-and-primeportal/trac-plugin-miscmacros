@@ -3,6 +3,8 @@ Created on 13 okt 2011
 
 @author: enmarkp
 '''
+
+from trac.util.datefmt import parse_date
 from trac.wiki.macros import WikiMacroBase
 from trac.wiki.api import parse_args
 import dateutil.parser
@@ -19,10 +21,17 @@ class DateMacro(WikiMacroBase):
         args, kw = parse_args(content)
         fmt = 'format' in kw and kw['format'] or '%Y-%m-%d %H:%M %Z'
         d = args and args[0].strip() or ''
+
+        # Try dateutil first, to maintain compatibility with earlier releases
+        # of this macro.
+        # If that fails use Trac's own function, for greater flexibility
         try:
             d = dateutil.parser.parse(d)
         except ValueError:
-            raise Exception("Failed to parse date '%s', try using 'YYYY-MM-DD HH:MM +H:00'" % d)
+            # If parse_date fails it will raise an appropriate TracError,
+            # with a usage hint
+            d = parse_date(d, tzinfo=formatter.req.tz)
+
         if not d.tzinfo:
             d = d.replace(tzinfo=formatter.req.tz)
         return d.astimezone(formatter.req.tz).strftime(fmt)
