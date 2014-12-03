@@ -13,7 +13,6 @@ setup(
         'miscmacrosplugin.MilestoneCompactMacro = miscmacrosplugin.MilestoneCompactMacro',
         'miscmacrosplugin.PlannedMilestones = miscmacrosplugin.PlannedMilestones',
         'miscmacrosplugin.TicketBox = miscmacrosplugin.TicketBox',
-        'miscmacrosplugin.WikiCalendarMacro = miscmacrosplugin.WikiCalendarMacro',
         'miscmacrosplugin.EmailProcessor = miscmacrosplugin.EmailProcessor',
         'miscmacrosplugin.MilestoneTrafficLights = miscmacrosplugin.MilestoneTrafficLights',
         'miscmacrosplugin.Charts = miscmacrosplugin.Charts',
