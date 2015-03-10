@@ -112,7 +112,7 @@ class TimelineMacro(WikiMacroBase):
                     class_="date",
                 ),
                 tag.div(
-                    tag.i(class_="event-type icon-" + event['kind']),
+                    tag.i(class_="event-type fa fa-" + event['kind']),
                     tag.a(
                         event_title,
                         href=event_url,
@@ -130,7 +130,7 @@ class TimelineMacro(WikiMacroBase):
         return tag.div(
                     tag.h3(
                         tag.i(
-                            class_="icon-calendar"
+                            class_="fa fa-calendar"
                         ),
                         " Recent Project Activity"
                     ),
