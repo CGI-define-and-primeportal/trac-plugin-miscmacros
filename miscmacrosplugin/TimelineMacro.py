@@ -7,14 +7,12 @@ from trac.web.chrome import Chrome
 from trac.wiki.macros import WikiMacroBase
 from trac.timeline.api import ITimelineEventProvider
 from trac.timeline.web_ui import TimelineModule
-from trac.util.datefmt import to_utimestamp
 from trac.mimeview import Context
-from trac.util.datefmt import format_date, pretty_age
+from trac.util.datefmt import pretty_age
 from sidebarplugin.api import ISidebarBoxProvider
 
-from genshi.builder import tag, Markup
+from genshi.builder import tag
 from datetime import datetime, timedelta
-from itertools import groupby
 
 class TimelineMacro(WikiMacroBase):
     """

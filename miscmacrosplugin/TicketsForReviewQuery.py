@@ -6,7 +6,7 @@ from trac.resource import get_resource_url , get_resource_shortname, Resource
 from genshi.builder import tag
 
 from datetime import *
-from trac.util.datefmt import format_datetime, utc
+from trac.util.datefmt import format_datetime
 
 class TicketsForReviewQuery(WikiMacroBase):
         """
