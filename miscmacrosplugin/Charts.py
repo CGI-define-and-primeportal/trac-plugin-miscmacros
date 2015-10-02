@@ -31,7 +31,10 @@
 from trac.wiki.macros import WikiMacroBase
 from trac.wiki.api import parse_args
 from trac.versioncontrol.api import RepositoryManager
-from trac.util.datefmt import to_utimestamp
+from trac.util.datefmt import format_datetime, from_utimestamp, \
+                              to_utimestamp, utc
+
+from genshi.builder import tag
 
 from datetime import datetime, timedelta
 import time
